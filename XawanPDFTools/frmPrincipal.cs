@@ -24,7 +24,9 @@ namespace XawanPDFTools
         private void frmPrincipal_Load(object sender, EventArgs e)
         {
             txtTab1Ruta.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            txtAjpgSalida.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             this.Text = "Xawan PDF Tools - Alpha 4";
+            tabPtoJ.TabPages.Remove(pdfAjpg);
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -61,9 +63,7 @@ namespace XawanPDFTools
                 {
                     listaImagenes.Items.Add(file);
                 }
-
-            }
-            
+            }            
         }
 
         private void btnTab1LimpiarLista_Click(object sender, EventArgs e)
@@ -71,7 +71,6 @@ namespace XawanPDFTools
             listaImagenes.Items.Clear();
             txtNombreArchivo.Text = "";
         }
-
         private void JPGaPDF(string ruta, string nombreArchivo)
         {
             string archivo = ruta + "\\" + nombreArchivo + ".pdf";
@@ -109,8 +108,7 @@ namespace XawanPDFTools
                     {
                         // ...and start a viewer
                         Process.Start(archivo);
-                    }
-                    
+                    }                    
                 }
                 else
                 {
@@ -145,8 +143,7 @@ namespace XawanPDFTools
                     // ...and start a viewer
                     Process.Start(archivo);
                 }
-            }          
-           
+            }       
         }
         
         private void JPGaPDF(string ruta)
@@ -224,9 +221,7 @@ namespace XawanPDFTools
 		            	{
 		            		this.Cursor = Cursors.Default;
 		            	}	        
-	            	}
-	            	
-	            	    	
+	            	}   	    	
         	}
         	if (MessageBox.Show("Operación completada.\nArchivos guardados en " + ruta + ".\n¿Desea abrir la carpeta de destino?", "Operación realizada", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         	{
@@ -268,12 +263,18 @@ namespace XawanPDFTools
             }
         }
 
+        /// <summary>
+        /// Muestra el dialogo "Acerca de...".
+        /// </summary>
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             AboutBox1 about = new AboutBox1();
             about.ShowDialog();
         }
-        
+
+        /// <summary>
+        /// Carga el archivo soltado dentro de la lista.
+        /// </summary>
 		void ListaImagenesDragDrop(object sender, DragEventArgs e)
 		{	
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -296,7 +297,39 @@ namespace XawanPDFTools
 			e.Effect = DragDropEffects.Copy;
 		}
 
-        /*** TAB 2 ***/
+        /*** TRANSICIÓN ***/
 
+        private void tabPtoJ_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabPtoJ.SelectedIndex == 0)
+            {
+            }
+            else
+            {
+                txtAjpgSalida.Text = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            }
+        }
+
+        /*** PDF A JPG ***/
+
+        private void btnAjpg_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnEligePDF_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Multiselect = true;
+            open.Filter = "Archivo PDF (*.pdf)|*.pdf";
+
+            DialogResult dr = open.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                txtAjpgEntrada.Text = open.FileName;
+            }
+        }
+
+        
     } /*** FIN CLASE***/
 }/*** FIN NAMESPACE***/
